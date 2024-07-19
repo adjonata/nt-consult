@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { authMiddleware } from "./middlewares/auth";
 
 export enum Routes {
   HOME = "home",
@@ -13,16 +12,17 @@ const router = createRouter({
       path: "/",
       name: Routes.HOME,
       component: () => import("../views/home.vue"),
-    },
-    {
-      path: "/entrar",
-      name: Routes.LOGIN,
-      component: () => import("../views/login.vue"),
+      meta: {
+        title: "Início",
+      },
     },
   ],
 });
 
-// Middleware de autenticação
-router.beforeEach(authMiddleware);
+router.beforeEach((to) => {
+  if (to?.meta?.title) {
+    document.title = `${to.meta.title} - NT Hotéis`;
+  }
+});
 
 export default router;
