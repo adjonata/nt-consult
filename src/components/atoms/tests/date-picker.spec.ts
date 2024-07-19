@@ -21,10 +21,10 @@ describe("DatePicker.vue", () => {
       },
     });
     const inputElement = wrapper.find(queries.input);
-    expect(inputElement.exists());
+    expect(inputElement.exists()).toBeTruthy();
 
     const labelElement = wrapper.find(labelQueries.title);
-    expect(labelElement.exists());
+    expect(labelElement.exists()).toBeTruthy();
     expect(labelElement.element.textContent).toEqual(test.label);
   });
 

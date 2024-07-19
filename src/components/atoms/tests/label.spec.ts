@@ -20,14 +20,14 @@ describe("Label.vue", () => {
       },
     });
     const labelElement = wrapper.find(queries.label);
-    expect(labelElement.exists());
+    expect(labelElement.exists()).toBeTruthy();
 
     const titleElement = wrapper.find(queries.title);
-    expect(titleElement.exists());
+    expect(titleElement.exists()).toBeTruthy();
     expect(titleElement.element.textContent).toEqual(test.label);
 
     const contentElement = wrapper.find(queries.content);
-    expect(contentElement.exists());
+    expect(contentElement.exists()).toBeTruthy();
   });
 
   it("'for' attribute test", () => {

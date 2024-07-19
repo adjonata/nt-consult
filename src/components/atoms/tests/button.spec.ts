@@ -19,10 +19,10 @@ describe("Button.vue", () => {
       },
     });
     const buttonElement = wrapper.find(queries.button);
-    expect(buttonElement.exists());
+    expect(buttonElement.exists()).toBeTruthy();
 
     const labelElement = wrapper.find(queries.label);
-    expect(labelElement.exists());
+    expect(labelElement.exists()).toBeTruthy();
     expect(labelElement.element.textContent).toEqual(test.label);
   });
 
