@@ -4,8 +4,8 @@ import { mount } from "@vue/test-utils";
 import Button from "../button.vue";
 
 const queries = {
-  button: ".button",
-  label: ".button__label",
+  button: "[data-test='button']",
+  label: "[data-test='button-label']",
 };
 
 describe("Button.vue", () => {

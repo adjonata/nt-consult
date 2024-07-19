@@ -4,7 +4,7 @@ import { mount } from "@vue/test-utils";
 import Field from "../field.vue";
 
 const queries = {
-  field: ".field",
+  field: "[data-test='field']",
 };
 
 describe("Field.vue", () => {

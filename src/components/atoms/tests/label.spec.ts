@@ -4,8 +4,9 @@ import { mount } from "@vue/test-utils";
 import Label from "../label.vue";
 
 export const queries = {
-  label: ".label",
-  title: ".label__title",
+  label: "[data-test='label']",
+  title: "[data-test='label-title']",
+  content: "[data-test='label-content']",
 };
 
 describe("Label.vue", () => {
@@ -24,6 +25,9 @@ describe("Label.vue", () => {
     const titleElement = wrapper.find(queries.title);
     expect(titleElement.exists());
     expect(titleElement.element.textContent).toEqual(test.label);
+
+    const contentElement = wrapper.find(queries.content);
+    expect(contentElement.exists());
   });
 
   it("'for' attribute test", () => {
