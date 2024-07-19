@@ -1,12 +1,10 @@
 import { describe, expect, it } from "vitest";
-
+import { queries as labelQueries } from "./label.spec";
 import { mount } from "@vue/test-utils";
 import Field from "../field.vue";
 
 const queries = {
   field: ".field",
-  label: ".field__label",
-  input: ".field__input",
 };
 
 describe("Field.vue", () => {
@@ -21,18 +19,16 @@ describe("Field.vue", () => {
         name: test.name,
       },
     });
+
     const fieldElement = wrapper.find(queries.field);
     expect(fieldElement.exists());
+    expect(fieldElement.attributes("name")).toEqual(test.name);
+    expect(fieldElement.attributes("id")).toEqual(test.name);
 
-    const labelElement = wrapper.find(queries.label);
+    const labelElement = wrapper.find(labelQueries.title);
     expect(labelElement.exists());
     expect(labelElement.attributes("for")).toEqual(test.name);
     expect(labelElement.element.textContent).toEqual(test.label);
-
-    const inputElement = wrapper.find(queries.input);
-    expect(inputElement.exists());
-    expect(inputElement.attributes("name")).toEqual(test.name);
-    expect(inputElement.attributes("id")).toEqual(test.name);
   });
 
   it("Placeholder test", () => {
@@ -45,8 +41,8 @@ describe("Field.vue", () => {
       },
     });
 
-    const inputElement = wrapper.find(queries.input);
-    expect(inputElement.attributes("placeholder")).toEqual(placeholder);
+    const fieldElement = wrapper.find(queries.field);
+    expect(fieldElement.attributes("placeholder")).toEqual(placeholder);
   });
 
   it("Custom type test", () => {
@@ -59,8 +55,8 @@ describe("Field.vue", () => {
       },
     });
 
-    const inputElement = wrapper.find(queries.input);
-    expect(inputElement.attributes("type")).toEqual(type);
+    const fieldElement = wrapper.find(queries.field);
+    expect(fieldElement.attributes("type")).toEqual(type);
   });
 
   it("Change value test", () => {
@@ -71,9 +67,9 @@ describe("Field.vue", () => {
       },
     });
 
-    const inputElement = wrapper.find(queries.input);
+    const fieldElement = wrapper.find(queries.field);
     const newValue = "A great value";
-    inputElement.setValue(newValue);
-    expect((inputElement.element as HTMLInputElement).value).toEqual(newValue);
+    fieldElement.setValue(newValue);
+    expect((fieldElement.element as HTMLInputElement).value).toEqual(newValue);
   });
 });
