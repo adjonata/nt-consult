@@ -21,12 +21,12 @@ describe("Field.vue", () => {
     });
 
     const fieldElement = wrapper.find(queries.field);
-    expect(fieldElement.exists());
+    expect(fieldElement.exists()).toBeTruthy();
     expect(fieldElement.attributes("name")).toEqual(test.name);
     expect(fieldElement.attributes("id")).toEqual(test.name);
 
     const labelElement = wrapper.find(labelQueries.title);
-    expect(labelElement.exists());
+    expect(labelElement.exists()).toBeTruthy();
     expect(labelElement.attributes("for")).toEqual(test.name);
     expect(labelElement.element.textContent).toEqual(test.label);
   });
