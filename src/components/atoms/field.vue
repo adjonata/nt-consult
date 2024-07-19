@@ -18,7 +18,15 @@ const value = defineModel();
 
 <template>
   <Label :label :for="name">
-    <input v-model="value" :type :placeholder :name :id="name" class="field" />
+    <input
+      v-model="value"
+      :type
+      :placeholder
+      :name
+      :id="name"
+      class="field"
+      data-test="field"
+    />
   </Label>
 </template>
 

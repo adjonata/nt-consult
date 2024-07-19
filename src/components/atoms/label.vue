@@ -6,9 +6,9 @@ defineProps<{
 </script>
 
 <template>
-  <div class="label">
-    <label :for class="label__title">{{ label }}</label>
-    <div class="label__content">
+  <div class="label" data-test="label">
+    <label :for class="label__title" data-test="label-title">{{ label }}</label>
+    <div class="label__content" data-test="label-content">
       <slot></slot>
     </div>
   </div>

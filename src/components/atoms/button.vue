@@ -22,9 +22,10 @@ const emit = defineEmits<{
     :class="['button', theme, disabled && 'disabled', fullwidth && 'w-full']"
     :disabled
     :type
+    data-test="button"
     @click="disabled ? null : emit('click')"
   >
-    <span class="button__label">
+    <span class="button__label" data-test="button-label">
       {{ label }}
     </span>
   </button>
