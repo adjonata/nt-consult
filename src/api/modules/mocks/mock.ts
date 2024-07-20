@@ -3,7 +3,7 @@ import MockAdapter from "axios-mock-adapter";
 import { api } from "../../axios";
 
 export const mock = new MockAdapter(api, {
-  delayResponse: 1200,
+  delayResponse: 1800,
 });
 
 export function makeRequestData<T = any>(

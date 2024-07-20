@@ -4,3 +4,4 @@ export { default as Modal } from "./modal.vue";
 export { default as Button } from "./button.vue";
 export { default as Label } from "./label.vue";
 export { default as Select } from "./select.vue";
+export { default as Spinner } from "./spinner.vue";

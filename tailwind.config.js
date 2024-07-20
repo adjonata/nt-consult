@@ -8,20 +8,24 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: 'B540B3',
-          DEFAULT: '#822E81',
-          dark: '#5B205A',
-        },
-        primary: {
-          light: '#B540B3',
-          DEFAULT: '#822E81',
-          dark: '#5B205A',
+          light: '#849ce3',
+          DEFAULT: '#3555b0',
+          dark: '#1d398c',
         },
         secondary: {
-          light: '#D19EA4',
-          DEFAULT: '#BE747D',
-          dark: '#A64E59',
+          light: '#ce484f',
+          DEFAULT: '#ba3239',
+          dark: '#972228',
         }
+      },
+			animation: {
+				fade: 'fadeIn .5s ease-in-out',
+			},
+      keyframes:{
+				fadeIn: {
+					from: { opacity: 0 },
+					to: { opacity: 1 },
+				},
       }
     },
   },

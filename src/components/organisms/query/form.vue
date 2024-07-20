@@ -6,6 +6,7 @@ import { queryValidation, type QueryFields } from "@/validations/query";
 import { makeNumberOptions, stateOptions } from "@/utils/options";
 import { hotelsApi } from "@/api/modules/hotels";
 import { useQueryStore } from "@/stores/query.store";
+import { storeToRefs } from "pinia";
 
 const props = defineProps<{
   disabled?: boolean;
@@ -16,8 +17,9 @@ const emit = defineEmits<{
 }>();
 
 const queryStore = useQueryStore();
+const { isLoading } = storeToRefs(queryStore);
 
-const { errors, handleSubmit, defineField, isSubmitting } = useForm({
+const { errors, handleSubmit, defineField } = useForm({
   validationSchema: toTypedSchema(queryValidation),
   initialValues: {
     number_of_bedrooms: 1,
@@ -47,7 +49,7 @@ const submit = handleSubmit(async (values) => {
       name="origin"
       :options="stateOptions"
       :error="errors.origin"
-      :disabled="isSubmitting"
+      :disabled="isLoading"
       class="col-span-2 md:col-span-1 lg:col-span-3"
       v-model="origin"
     />
@@ -56,7 +58,7 @@ const submit = handleSubmit(async (values) => {
       name="destiny"
       :options="stateOptions"
       :error="errors.destiny"
-      :disabled="isSubmitting"
+      :disabled="isLoading"
       class="col-span-2 md:col-span-1 lg:col-span-3"
       v-model="destiny"
     />
@@ -64,7 +66,7 @@ const submit = handleSubmit(async (values) => {
       label="Data de Check-In"
       name="checkin_date"
       :error="errors.checkin_date"
-      :disabled="isSubmitting"
+      :disabled="isLoading"
       class="lg:col-span-3"
       :min-date="new Date()"
       v-model="checkinDate"
@@ -73,7 +75,7 @@ const submit = handleSubmit(async (values) => {
       label="Data de Check-Out"
       name="checkout_date"
       :error="errors.checkout_date"
-      :disabled="isSubmitting"
+      :disabled="isLoading"
       class="lg:col-span-3"
       :min-date="new Date()"
       v-model="checkoutDate"
@@ -83,7 +85,7 @@ const submit = handleSubmit(async (values) => {
       name="number_of_bedroows"
       :options="bedroomsOptions"
       :error="errors.number_of_bedrooms"
-      :disabled="isSubmitting"
+      :disabled="isLoading"
       value-type="number"
       class="lg:col-span-3"
       v-model="numberOfBedrooms"
@@ -94,7 +96,7 @@ const submit = handleSubmit(async (values) => {
       :options="guestsOptions"
       :error="errors.number_of_guests"
       value-type="number"
-      :disabled="isSubmitting"
+      :disabled="isLoading"
       class="lg:col-span-3"
       v-model="numberOfGuests"
     />
@@ -102,7 +104,7 @@ const submit = handleSubmit(async (values) => {
       type="submit"
       theme="primary"
       fullwidth
-      :label="isSubmitting ? 'Carregando...' : 'Procurar'"
+      :label="isLoading ? 'Carregando...' : 'Procurar'"
       class="mt-2 col-span-2 lg:col-span-3"
     />
   </form>
