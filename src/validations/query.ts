@@ -16,4 +16,6 @@ export const queryValidation = z.object({
     .min(1),
 });
 
-export type QueryFields = z.infer<typeof queryValidation>;
+export interface QueryFields extends z.infer<typeof queryValidation> {}
+
+export type QueryFieldsKeys = keyof QueryFields;

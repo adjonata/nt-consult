@@ -8,6 +8,7 @@ const props = withDefaults(
     name: string;
     disabled?: boolean;
     error?: string;
+    minDate?: Date;
   }>(),
   {}
 );
@@ -34,6 +35,7 @@ function handleChangeValue(event: string | null) {
       model-type="yyyy-MM-dd"
       :name
       placeholder="dd/mm/aaaa"
+      :min-date
       :disabled
       :id="name"
     />

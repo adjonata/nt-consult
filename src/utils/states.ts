@@ -1,4 +1,4 @@
-export const stateCoordinates = {
+export const stateCoordinates: Record<string, [number, number]> = {
   AC: [-8.77, -70.55],
   AL: [-9.62, -36.82],
   AP: [1.41, -51.77],
@@ -27,3 +27,30 @@ export const stateCoordinates = {
   SE: [-10.57, -37.45],
   TO: [-10.25, -48.25],
 };
+
+export function getDistanceInKm(
+  coord1: [number, number],
+  coord2: [number, number]
+) {
+  const toRad = (value: number) => (value * Math.PI) / 180;
+
+  const lat1 = coord1[0];
+  const lon1 = coord1[1];
+  const lat2 = coord2[0];
+  const lon2 = coord2[1];
+
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  return distance;
+}
