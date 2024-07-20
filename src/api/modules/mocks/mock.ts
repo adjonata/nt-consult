@@ -3,11 +3,14 @@ import MockAdapter from "axios-mock-adapter";
 import { api } from "../../axios";
 
 export const mock = new MockAdapter(api, {
-  delayResponse: 1000,
+  delayResponse: 1200,
 });
 
-export function makeRequestData<T = any>(config: AxiosRequestConfig<any>) {
-  return typeof config.data === "string"
-    ? (JSON.parse(config.data) as T)
-    : null;
+export function makeRequestData<T = any>(
+  config: AxiosRequestConfig<any>,
+  key: "data" | "params"
+) {
+  return typeof config[key] === "string"
+    ? (JSON.parse(config[key]) as T)
+    : (config[key] as T);
 }

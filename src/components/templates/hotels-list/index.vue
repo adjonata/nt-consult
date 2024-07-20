@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import QueryForm from "@/components/organisms/query/form.vue";
+import HotelsList from "@/components/organisms/list/hotels.vue";
+import Logo from "@/components/atoms/logo.vue";
 </script>
 
 <template>
   <div class="hotels-list">
-    <h1 class="hotels-list__title">Encontre hóteis baratos!</h1>
+    <Logo />
     <QueryForm />
+    <HotelsList />
   </div>
 </template>
 
