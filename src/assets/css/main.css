@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 @import "@vuepic/vue-datepicker/dist/main.css";
+@import "vue-select/dist/vue-select.css";
 
 @tailwind base;
 @tailwind components;

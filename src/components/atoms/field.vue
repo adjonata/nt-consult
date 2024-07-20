@@ -32,7 +32,7 @@ const value = defineModel();
 
 <style lang="scss" scoped>
 .field {
-  @apply w-full outline-none px-3 py-2 rounded-lg relative
-    border border-gray-400 hover:border-gray-600 focus:border-gray-800;
+  @apply w-full outline-none px-3 h-[44px] rounded-[4px] relative
+    border border-[rgb(221,221,221)] focus:border-[rgb(170,174,183)] hover:border-[rgb(170,174,183)];
 }
 </style>

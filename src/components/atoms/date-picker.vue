@@ -26,4 +26,8 @@ const value = defineModel<string>();
   </Label>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.dp__input {
+  @apply h-[44px];
+}
+</style>
