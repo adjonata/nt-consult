@@ -10,17 +10,32 @@ const props = withDefaults(
     options: Option[];
     placeholder?: string;
     disabled?: boolean;
+    error?: string;
+    valueType?: "string" | "number";
   }>(),
-  {}
+  { valueType: "string" }
 );
 
-const value = defineModel();
+const value = defineModel<string | number>();
+
+function handleChangeValue(event: string | null) {
+  if (typeof event !== "string") {
+    value.value = undefined;
+  } else {
+    if (props.valueType === "number") {
+      value.value = Number(event);
+    } else {
+      value.value = event;
+    }
+  }
+}
 </script>
 
 <template>
-  <Label :label :for="name">
+  <Label :label :for="name" :error>
     <VueSelect
-      v-model="value"
+      :modelValue="value"
+      @update:modelValue="handleChangeValue"
       :name
       :options
       :placeholder

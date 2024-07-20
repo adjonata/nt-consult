@@ -33,7 +33,7 @@ const emit = defineEmits<{
 
 <style lang="scss" scoped>
 .button {
-  @apply min-w-[142px] px-6 py-3 rounded-xl transition-colors;
+  @apply min-w-[142px] px-6 h-[60px] flex items-center justify-center text-center rounded-xl transition-colors;
 
   &.disabled {
     @apply cursor-not-allowed;

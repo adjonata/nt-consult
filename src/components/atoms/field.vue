@@ -6,7 +6,8 @@ const props = withDefaults(
     label: string;
     name: string;
     placeholder?: string;
-    type?: "text" | "password";
+    type?: "text" | "password" | "number";
+    error?: string;
   }>(),
   {
     type: "text",
@@ -17,7 +18,7 @@ const value = defineModel();
 </script>
 
 <template>
-  <Label :label :for="name">
+  <Label :label :error :for="name">
     <input
       v-model="value"
       :type
