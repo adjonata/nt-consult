@@ -3,17 +3,31 @@ import VueDatePicker from "@vuepic/vue-datepicker";
 import { Label } from ".";
 
 const props = withDefaults(
-  defineProps<{ label: string; name: string; disabled?: boolean }>(),
+  defineProps<{
+    label: string;
+    name: string;
+    disabled?: boolean;
+    error?: string;
+  }>(),
   {}
 );
 
 const value = defineModel<string>();
+
+function handleChangeValue(event: string | null) {
+  if (typeof event !== "string") {
+    value.value = undefined;
+  } else {
+    value.value = event;
+  }
+}
 </script>
 
 <template>
-  <Label :label :for="name">
+  <Label :label :for="name" :error>
     <VueDatePicker
-      v-model="value"
+      :model-value="value"
+      @update:model-value="handleChangeValue"
       text-input
       auto-apply
       format="dd/MM/yyyy"

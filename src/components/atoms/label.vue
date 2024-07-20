@@ -2,6 +2,7 @@
 defineProps<{
   label: string;
   for?: string;
+  error?: string;
 }>();
 </script>
 
@@ -10,6 +11,9 @@ defineProps<{
     <label :for class="label__title" data-test="label-title">{{ label }}</label>
     <div class="label__content" data-test="label-content">
       <slot></slot>
+    </div>
+    <div class="label__error" v-if="error">
+      <span>{{ error }}</span>
     </div>
   </div>
 </template>
@@ -22,6 +26,12 @@ defineProps<{
   }
   &__content {
     @apply w-full;
+  }
+  &__error {
+    @apply w-full;
+    span {
+      @apply text-[14px] text-red-600 pl-2;
+    }
   }
 }
 </style>
