@@ -35,7 +35,7 @@ export function makeHotelsByQuery(data: QueryParams) {
       checkin_date: data.checkin_date,
       checkout_date: data.checkout_date,
       duration,
-      name: `Hotel ${index + 1}`,
+      name: `Hotel ${hotelStars} estrela${hotelStars > 1 ? "s" : ""}`,
       number_of_bedrooms: data.number_of_bedrooms,
       number_of_guests: data.number_of_guests,
       host_price: hostPrice,

@@ -6,10 +6,10 @@ const queryStore = useQueryStore();
 
 <template>
   <div
-    class="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-6 pb-10"
+    class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 pb-10"
   >
     <div
-      class="w-full flex flex-col gap-1 p-4 border-2 border-gray-500 rounded-xl"
+      class="w-full flex flex-col gap-1 p-4 border-2 border-secondary-light rounded-xl"
       v-for="hotel in queryStore.hotels"
       :key="hotel.id"
     >
