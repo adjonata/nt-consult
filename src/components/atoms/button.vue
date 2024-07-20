@@ -6,6 +6,7 @@ const props = withDefaults(
     theme?: "primary" | "secondary";
     disabled?: boolean;
     fullwidth?: boolean;
+    rounded?: boolean;
   }>(),
   {
     type: "button",
@@ -19,7 +20,13 @@ const emit = defineEmits<{
 
 <template>
   <button
-    :class="['button', theme, disabled && 'disabled', fullwidth && 'w-full']"
+    :class="[
+      'button',
+      theme,
+      disabled && 'disabled',
+      fullwidth && 'w-full',
+      rounded ? 'rounded-full' : 'rounded-xl',
+    ]"
     :disabled
     :type
     data-test="button"
@@ -33,7 +40,7 @@ const emit = defineEmits<{
 
 <style lang="scss" scoped>
 .button {
-  @apply min-w-[142px] px-6 h-[60px] flex items-center justify-center text-center rounded-xl transition-colors;
+  @apply min-w-[142px] px-6 h-[60px] flex items-center justify-center text-center transition-colors;
 
   &.disabled {
     @apply cursor-not-allowed;

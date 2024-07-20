@@ -1,30 +1,62 @@
 <script setup lang="ts">
+import HotelItem from "@/components/molecules/list/item.vue";
+import { Spinner } from "@/components/atoms";
 import { useQueryStore } from "@/stores/query.store";
+import { storeToRefs } from "pinia";
+import { Button } from "@/components/atoms";
 
 const queryStore = useQueryStore();
+const { hotels, selectedHotelIds, isLoading } = storeToRefs(queryStore);
 </script>
 
 <template>
-  <div
-    class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 pb-10"
-  >
-    <div
-      class="w-full flex flex-col gap-1 p-4 border-2 border-secondary-light rounded-xl"
-      v-for="hotel in queryStore.hotels"
-      :key="hotel.id"
-    >
-      <span class="text-lg font-bold">{{ hotel.name }}</span>
-      <span>De: {{ hotel.checkin_date }} à {{ hotel.checkout_date }}</span>
-      <span>N° de Hóspedes: {{ hotel.number_of_guests }}</span>
-      <span>N° de Quartos: {{ hotel.number_of_bedrooms }}</span>
-      <span>Dias de Hospedagem: {{ hotel.duration }}</span>
-      <span>Estrelas: {{ hotel.stars }}</span>
-      <span>Destino: {{ hotel.state }}</span>
-      <span>Preço de hospedagem: {{ hotel.host_price.toFixed(2) }}</span>
-      <span>Preço de viagem: {{ hotel.travel_price.toFixed(2) }}</span>
-      <span>Preço total: {{ hotel.total_price.toFixed(2) }}</span>
+  <section class="hotels">
+    <div class="hotels__title" v-if="!isLoading && hotels.length">
+      <span>Selecione hotéis para comparar:</span>
     </div>
-  </div>
+    <div class="hotels__list" v-if="!isLoading">
+      <HotelItem
+        v-for="hotel in hotels"
+        :key="hotel.id"
+        :hotel
+        :selected="selectedHotelIds.includes(hotel.id)"
+        @select="queryStore.handleSelectHotel(hotel)"
+        @unselect="queryStore.handleUnselectHotel(hotel.id)"
+      />
+    </div>
+    <div class="hotels__loading" v-if="isLoading">
+      <Spinner :size="32" theme="primary" />
+      <span>Buscando hotéis</span>
+    </div>
+    <div class="hotels__compare" v-if="selectedHotelIds.length">
+      <Button type="button" label="Comparar" theme="primary" rounded />
+    </div>
+  </section>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.hotels {
+  @apply w-full flex flex-col;
+  &__title {
+    @apply w-full text-center flex items-center mb-4;
+    span {
+      @apply text-primary font-bold text-lg;
+    }
+  }
+  &__list {
+    @apply w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 pb-10 animate-fade;
+  }
+  &__loading {
+    @apply flex items-center justify-center h-[100px] animate-fade;
+    span {
+      @apply text-primary text-lg uppercase pl-4;
+    }
+  }
+
+  &__compare {
+    button {
+      @apply fixed right-[20px] lg:right-[100px] bottom-[30px] lg:bottom-[70px] shadow-2xl;
+    }
+  }
+}
+</style>

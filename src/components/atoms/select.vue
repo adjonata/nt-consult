@@ -47,6 +47,9 @@ function handleChangeValue(event: string | null) {
 </template>
 
 <style lang="scss">
+.v-select {
+  @apply bg-white;
+}
 .vs__dropdown-toggle {
   @apply h-[44px] pb-0 border border-[rgb(221,221,221)] focus:border-[rgb(170,174,183)] hover:border-[rgb(170,174,183)];
 }

@@ -10,3 +10,7 @@ html,
 body {
   font-family: "Roboto", sans-serif;
 }
+
+body {
+  @apply bg-slate-100;
+}

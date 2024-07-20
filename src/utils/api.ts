@@ -18,17 +18,12 @@ export function makeHotelsByQuery(data: QueryParams) {
     parseDate(data.checkin_date)
   );
   if (duration < 1) {
-    return [
-      400,
-      {
-        message: "Nenhum resultado encontrado!",
-      },
-    ];
+    return [];
   }
 
   const hotels = Array.from({ length: 10 }, (_, index) => {
     const hotelStars = (index % 10) + 1;
-    const hostPrice = hotelStars * 20 * duration; // 20 reais por estrela * dias hospedado
+    const hostPrice = hotelStars * 20 * duration * data.number_of_guests; // 20 reais por estrela * dias hospedado
     const totalPrice = travelPrice + hostPrice; // Valor da viagem + valor da hospedagem
     return {
       id: index + 1,
