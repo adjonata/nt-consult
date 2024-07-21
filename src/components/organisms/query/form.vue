@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { DatePicker, Select, Button } from "@/components/atoms";
-import { useForm } from "vee-validate";
-import { toTypedSchema } from "@vee-validate/zod";
-import { queryValidation, type QueryFields } from "@/validations/query";
-import { makeNumberOptions, stateOptions } from "@/utils/options";
-import { hotelsApi } from "@/api/modules/hotels";
+import { Button, DatePicker, Select } from "@/components/atoms";
 import { useQueryStore } from "@/stores/query.store";
+import { makeNumberOptions, stateOptions } from "@/utils/options";
+import { queryValidation, type QueryFields } from "@/validations/query";
+import { toTypedSchema } from "@vee-validate/zod";
 import { storeToRefs } from "pinia";
+import { useForm } from "vee-validate";
 
 const props = defineProps<{
   disabled?: boolean;
@@ -37,8 +36,19 @@ const [numberOfGuests] = defineField("number_of_guests");
 const bedroomsOptions = makeNumberOptions(10, "quarto");
 const guestsOptions = makeNumberOptions(10, "hóspede");
 
+function scrollToHotelsList() {
+  const hotelsListElement = document.querySelector("#hotels-list");
+  if (hotelsListElement) {
+    hotelsListElement.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+}
+
 const submit = handleSubmit(async (values) => {
   await queryStore.handleSearchHotels(values);
+  scrollToHotelsList();
 });
 </script>
 
@@ -50,6 +60,7 @@ const submit = handleSubmit(async (values) => {
       :options="stateOptions"
       :error="errors.origin"
       :disabled="isLoading"
+      placeholder="Selecione uma origem"
       class="col-span-2 md:col-span-1 lg:col-span-3"
       v-model="origin"
     />
@@ -59,6 +70,7 @@ const submit = handleSubmit(async (values) => {
       :options="stateOptions"
       :error="errors.destiny"
       :disabled="isLoading"
+      placeholder="Selecione um destino"
       class="col-span-2 md:col-span-1 lg:col-span-3"
       v-model="destiny"
     />
@@ -88,6 +100,7 @@ const submit = handleSubmit(async (values) => {
       :disabled="isLoading"
       value-type="number"
       class="lg:col-span-3"
+      placeholder="Selecione uma opção"
       v-model="numberOfBedrooms"
     />
     <Select
@@ -112,6 +125,6 @@ const submit = handleSubmit(async (values) => {
 
 <style lang="scss" scoped>
 .query-form {
-  @apply w-full grid grid-cols-2 lg:grid-cols-12 gap-x-3 lg:gap-x-6 gap-y-3 lg:gap-y-6 pb-8;
+  @apply w-full grid grid-cols-2 lg:grid-cols-12 gap-x-3 lg:gap-x-6 gap-y-3 lg:gap-y-6 pb-8 pt-8 lg:pt-10;
 }
 </style>

@@ -13,7 +13,7 @@ const router = createRouter({
       name: Routes.HOME,
       component: () => import("../views/home.vue"),
       meta: {
-        title: "Início",
+        title: "Buscar",
       },
     },
   ],
