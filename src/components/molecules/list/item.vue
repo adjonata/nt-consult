@@ -27,9 +27,6 @@ const hostDaysLabel = computed(() => {
   return `${hostDays} dia${hostDays > 1 ? "s" : ""}`;
 });
 
-const starsArray = computed(() =>
-  Array.from({ length: props.hotel.stars }, (_, index) => index + 1)
-);
 const hotelPrice = computed(() => {
   return applyMoneyMask(props.hotel.total_price);
 });
@@ -68,7 +65,7 @@ const dates = computed(() => {
       </span>
     </div>
     <div class="hotel-item__stars">
-      <StarIcon v-for="stars in starsArray" class="w-[24px]" />
+      <StarIcon v-for="stars in hotel.stars" class="w-[24px]" />
     </div>
     <span class="hotel-item__price">
       {{ hotelPrice }}
@@ -80,7 +77,7 @@ const dates = computed(() => {
 .hotel-item {
   @apply w-full flex flex-col gap-2 p-4 
   bg-white shadow-lg rounded-2xl cursor-pointer
-  border-[3px] border-transparent hover:border-primary-light transition-colors
+  border-[3px] border-transparent hover:border-blue-200 transition-colors
   text-gray-800 text-left;
 
   &.selected {

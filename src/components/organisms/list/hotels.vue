@@ -1,35 +1,38 @@
 <script setup lang="ts">
 import { Button, Select, Spinner } from "@/components/atoms";
 import HotelItem from "@/components/molecules/list/item.vue";
-import {
-  useQueryStore,
-  type QuerySortBy,
-  type QuerySortType,
-} from "@/stores/query.store";
+import { useQueryStore } from "@/stores/query.store";
 import { storeToRefs } from "pinia";
-import { ref, watch } from "vue";
+import { computed } from "vue";
 
 const queryStore = useQueryStore();
-const { hotels, selectedHotelIds, isLoading, isChangingSort } =
-  storeToRefs(queryStore);
+const {
+  hotels,
+  selectedHotelIds,
+  isLoading,
+  isChangingSort,
+  isAlreadySearched,
+  sortBy,
+  sortType,
+} = storeToRefs(queryStore);
 
-const sortBy = ref<string>("stars");
-const sortType = ref<string>("desc");
-
-watch([sortBy, sortType], ([newSortBy, newSortType]) => {
-  queryStore.handleChangeSort(
-    newSortBy as QuerySortBy,
-    newSortType as QuerySortType
-  );
-});
+const showFilters = computed(() =>
+  isChangingSort.value ? true : !isLoading.value && hotels.value.length
+);
+const showSpinner = computed(() => isLoading.value || isChangingSort.value);
+const showActionButtons = computed(() => !!selectedHotelIds.value.length);
+const showEmptyFeedback = computed(
+  () =>
+    !isLoading.value &&
+    !isChangingSort.value &&
+    isAlreadySearched.value &&
+    !hotels.value.length
+);
 </script>
 
 <template>
-  <section class="hotels">
-    <div
-      class="hotels__head"
-      v-if="isChangingSort ? true : !isLoading && hotels.length"
-    >
+  <section class="hotels" id="hotels-list">
+    <div class="hotels__head" v-if="showFilters">
       <div class="hotels__head__title flex">
         <span>Selecione hotéis para comparar:</span>
       </div>
@@ -68,19 +71,34 @@ watch([sortBy, sortType], ([newSortBy, newSortType]) => {
         @unselect="queryStore.handleUnselectHotel(hotel.id)"
       />
     </div>
-    <div class="hotels__loading" v-if="isLoading || isChangingSort">
+    <div class="hotels__loading" v-if="showSpinner">
       <Spinner :size="32" theme="primary" />
       <span>Buscando hotéis</span>
     </div>
-    <div class="hotels__compare" v-if="selectedHotelIds.length">
-      <Button type="button" label="Comparar" theme="primary" rounded />
+    <div class="hotels__empty" v-if="showEmptyFeedback">
+      <span>Nenhum hotel encontrado</span>
+    </div>
+    <div class="hotels__compare" v-if="showActionButtons">
+      <Button
+        type="button"
+        label="Limpar"
+        theme="secondary"
+        rounded
+        @click="queryStore.handleUnselectAllHotels()"
+      />
+      <Button
+        type="button"
+        :label="`Comparar (${selectedHotelIds.length})`"
+        theme="primary"
+        rounded
+      />
     </div>
   </section>
 </template>
 
 <style lang="scss" scoped>
 .hotels {
-  @apply w-full flex flex-col;
+  @apply w-full flex flex-col pt-4 lg:pt-8;
   &__head {
     @apply flex flex-col  lg:flex-row gap-4 lg:gap-0 items-start lg:items-end justify-start lg:justify-between pb-6;
     &__title {
@@ -94,18 +112,21 @@ watch([sortBy, sortType], ([newSortBy, newSortType]) => {
     }
   }
   &__list {
-    @apply w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 pb-10 animate-fade;
+    @apply w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6 pb-8 animate-fade;
   }
-  &__loading {
-    @apply flex items-center justify-center h-[100px] animate-fade;
+
+  &__loading,
+  &__empty {
+    @apply flex items-center justify-center animate-fade h-[60px];
     span {
       @apply text-primary text-lg uppercase pl-4;
     }
   }
 
   &__compare {
+    @apply fixed right-[20px] lg:right-[100px] bottom-[30px] lg:bottom-[70px] flex flex-col gap-5;
     button {
-      @apply fixed right-[20px] lg:right-[100px] bottom-[30px] lg:bottom-[70px] shadow-2xl;
+      @apply shadow-2xl;
     }
   }
 }

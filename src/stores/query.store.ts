@@ -1,9 +1,8 @@
 import { hotelsApi } from "@/api/modules/hotels";
 import type { Hotel } from "@/types/hotel";
 import type { QueryFields } from "@/validations/query";
-import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 export type QuerySortBy = "stars" | "total_price";
 export type QuerySortType = "asc" | "desc";
@@ -14,8 +13,8 @@ export interface QueryParams extends QueryFields {
 }
 
 export const useQueryStore = defineStore("query", () => {
-  const sortBy = useLocalStorage<QuerySortBy>("sortBy", "stars");
-  const sortType = useLocalStorage<QuerySortType>("sortBy", "asc");
+  const sortBy = ref<QuerySortBy>("stars");
+  const sortType = ref<QuerySortType>("desc");
 
   const hotels = ref<Hotel[]>([]);
   const selectedHotels = ref<Hotel[]>([]);
@@ -28,6 +27,7 @@ export const useQueryStore = defineStore("query", () => {
 
   const isLoading = ref(false);
   const isChangingSort = ref(false);
+  const isAlreadySearched = ref(false);
 
   async function handleSearchHotels(
     data: QueryFields,
@@ -47,6 +47,7 @@ export const useQueryStore = defineStore("query", () => {
         sortType: sortType.value,
       });
       hotels.value = response.data;
+      isAlreadySearched.value = true;
     } catch (error) {
       // #TODO
     } finally {
@@ -67,6 +68,10 @@ export const useQueryStore = defineStore("query", () => {
     }
   }
 
+  watch([sortBy, sortType], ([newSortBy, newSortType]) => {
+    handleChangeSort(newSortBy, newSortType);
+  });
+
   function handleSelectHotel(hotel: Hotel) {
     selectedHotels.value.push(hotel);
   }
@@ -76,14 +81,22 @@ export const useQueryStore = defineStore("query", () => {
     );
   }
 
+  function handleUnselectAllHotels() {
+    selectedHotels.value = [];
+  }
+
   return {
+    sortBy,
+    sortType,
     hotels,
     handleChangeSort,
     handleSearchHotels,
     isLoading,
     isChangingSort,
+    isAlreadySearched,
     handleSelectHotel,
     handleUnselectHotel,
+    handleUnselectAllHotels,
     selectedHotels,
     selectedHotelIds,
   };
