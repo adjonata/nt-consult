@@ -60,6 +60,7 @@ const submit = handleSubmit(async (values) => {
       :options="stateOptions"
       :error="errors.origin"
       :disabled="isLoading"
+      placeholder="Selecione uma origem"
       class="col-span-2 md:col-span-1 lg:col-span-3"
       v-model="origin"
     />
@@ -69,6 +70,7 @@ const submit = handleSubmit(async (values) => {
       :options="stateOptions"
       :error="errors.destiny"
       :disabled="isLoading"
+      placeholder="Selecione um destino"
       class="col-span-2 md:col-span-1 lg:col-span-3"
       v-model="destiny"
     />
@@ -98,6 +100,7 @@ const submit = handleSubmit(async (values) => {
       :disabled="isLoading"
       value-type="number"
       class="lg:col-span-3"
+      placeholder="Selecione uma opção"
       v-model="numberOfBedrooms"
     />
     <Select

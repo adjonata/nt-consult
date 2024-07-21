@@ -6,12 +6,12 @@ import QueryForm from "@/components/organisms/query/form.vue";
 </script>
 
 <template>
-  <div class="hotels-list">
+  <section class="hotels-list">
     <Logo />
     <QueryForm />
     <HotelsList />
     <Modal title="Comparar preços" />
-  </div>
+  </section>
 </template>
 
 <style lang="scss" scoped>
