@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { Option } from "@/types";
 import VueSelect from "vue-select";
 import Label from "./label.vue";
-import type { Option } from "@/types";
 
 const props = withDefaults(
   defineProps<{
@@ -12,8 +12,9 @@ const props = withDefaults(
     disabled?: boolean;
     error?: string;
     valueType?: "string" | "number";
+    clearable?: boolean;
   }>(),
-  { valueType: "string" }
+  { valueType: "string", clearable: true }
 );
 
 const value = defineModel<string | number>();
@@ -40,6 +41,7 @@ function handleChangeValue(event: string | null) {
       :options
       :placeholder
       :disabled
+      :clearable
       :reduce="(option: Option) => option.code"
       data-test="select"
     />

@@ -15,12 +15,13 @@ const borderTopColor = (
 </script>
 <template>
   <span
-    class="loader"
+    :class="['loader', theme]"
     :style="{
       borderTopColor,
       width: `${size}px`,
       height: `${size}px`,
     }"
+    data-test="loader"
   ></span>
 </template>
 <style scoped>

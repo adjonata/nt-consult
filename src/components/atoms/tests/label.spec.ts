@@ -7,6 +7,7 @@ export const queries = {
   label: "[data-test='label']",
   title: "[data-test='label-title']",
   content: "[data-test='label-content']",
+  error: '[data-test="label-error"]',
 };
 
 describe("Label.vue", () => {
@@ -43,5 +44,21 @@ describe("Label.vue", () => {
     });
     const titleElement = wrapper.find(queries.title);
     expect(titleElement.attributes("for")).toBe(test.for);
+  });
+
+  it("Error message test", () => {
+    const test = {
+      label: "Nice label",
+      error: "Ops...",
+    };
+    const wrapper = mount(Label, {
+      props: {
+        label: test.label,
+        error: test.error,
+      },
+    });
+    const errorElement = wrapper.find(queries.error);
+    expect(errorElement.exists()).toBeTruthy();
+    expect(errorElement.element.textContent).toEqual(test.error);
   });
 });
