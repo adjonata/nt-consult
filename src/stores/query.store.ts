@@ -27,9 +27,16 @@ export const useQueryStore = defineStore("query", () => {
   const lastQueryFields = ref<QueryFields>();
 
   const isLoading = ref(false);
+  const isChangingSort = ref(false);
 
-  async function handleSearchHotels(data: QueryFields) {
+  async function handleSearchHotels(
+    data: QueryFields,
+    _changingSort?: boolean
+  ) {
     try {
+      if (_changingSort) {
+        isChangingSort.value = true;
+      }
       isLoading.value = true;
       hotels.value = [];
       selectedHotels.value = [];
@@ -44,6 +51,7 @@ export const useQueryStore = defineStore("query", () => {
       // #TODO
     } finally {
       isLoading.value = false;
+      isChangingSort.value = false;
     }
   }
 
@@ -55,7 +63,7 @@ export const useQueryStore = defineStore("query", () => {
     sortType.value = _sortType;
 
     if (lastQueryFields.value) {
-      await handleSearchHotels(lastQueryFields.value);
+      await handleSearchHotels(lastQueryFields.value, true);
     }
   }
 
@@ -73,6 +81,7 @@ export const useQueryStore = defineStore("query", () => {
     handleChangeSort,
     handleSearchHotels,
     isLoading,
+    isChangingSort,
     handleSelectHotel,
     handleUnselectHotel,
     selectedHotels,

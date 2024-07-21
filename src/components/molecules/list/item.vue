@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import StarIcon from "@/assets/images/star.svg";
 import type { Hotel } from "@/types/hotel";
+import { formatDate } from "@/utils/date";
+import { applyMoneyMask } from "@/utils/masks";
+import { computed } from "vue";
 
 const props = defineProps<{
   hotel: Hotel;
@@ -9,6 +13,32 @@ const emit = defineEmits<{
   (e: "select"): void;
   (e: "unselect"): void;
 }>();
+/**
+ * Nome do hotel
+ * - Datas
+ * - Dias de hospedagem - Destino
+ * - Quartos - Hóspedes
+ * - Estrelas
+ * - Valor total
+ */
+
+const hostDaysLabel = computed(() => {
+  const hostDays = Number(props.hotel.duration);
+  return `${hostDays} dia${hostDays > 1 ? "s" : ""}`;
+});
+
+const starsArray = computed(() =>
+  Array.from({ length: props.hotel.stars }, (_, index) => index + 1)
+);
+const hotelPrice = computed(() => {
+  return applyMoneyMask(props.hotel.total_price);
+});
+const dates = computed(() => {
+  const formatedCheckinDate = formatDate(props.hotel.checkin_date);
+  const formatedCheckoutDate = formatDate(props.hotel.checkout_date);
+
+  return `${formatedCheckinDate} à ${formatedCheckoutDate}`;
+});
 </script>
 
 <template>
@@ -18,27 +48,62 @@ const emit = defineEmits<{
     type="button"
     :title="selected ? 'Desmarcar' : 'Comparar preços'"
   >
-    <span class="text-lg font-bold">{{ hotel.name }}</span>
-    <span>De: {{ hotel.checkin_date }} à {{ hotel.checkout_date }}</span>
-    <span>N° de Hóspedes: {{ hotel.number_of_guests }}</span>
-    <span>N° de Quartos: {{ hotel.number_of_bedrooms }}</span>
-    <span>Dias de Hospedagem: {{ hotel.duration }}</span>
-    <span>Estrelas: {{ hotel.stars }}</span>
-    <span>Destino: {{ hotel.state }}</span>
-    <span>Preço de hospedagem: {{ hotel.host_price.toFixed(2) }}</span>
-    <span>Preço de viagem: {{ hotel.travel_price.toFixed(2) }}</span>
-    <span>Preço total: {{ hotel.total_price.toFixed(2) }}</span>
+    <span class="hotel-item__title">
+      {{ hotel.name }}
+    </span>
+    <span class="hotel-item__info"> <b>De:</b> {{ dates }} </span>
+
+    <span class="hotel-item__info"> <b>Destino:</b> {{ hotel.state }} </span>
+
+    <span class="hotel-item__info">
+      <b>Dias hospedado:</b> {{ hostDaysLabel }}
+    </span>
+
+    <div class="hotel-item__group">
+      <span class="hotel-item__info">
+        <b>Quartos:</b> {{ hotel.number_of_bedrooms }}
+      </span>
+      <span class="hotel-item__info">
+        <b>Hóspedes:</b> {{ hotel.number_of_guests }}
+      </span>
+    </div>
+    <div class="hotel-item__stars">
+      <StarIcon v-for="stars in starsArray" class="w-[24px]" />
+    </div>
+    <span class="hotel-item__price">
+      {{ hotelPrice }}
+    </span>
   </button>
 </template>
 
 <style lang="scss" scoped>
 .hotel-item {
-  @apply w-full flex flex-col gap-1 p-4 
+  @apply w-full flex flex-col gap-2 p-4 
   bg-white shadow-lg rounded-2xl cursor-pointer
-  border-[3px] border-transparent hover:border-primary-light transition-colors;
+  border-[3px] border-transparent hover:border-primary-light transition-colors
+  text-gray-800 text-left;
 
   &.selected {
     @apply border-primary;
+  }
+
+  &__title {
+    @apply font-bold text-xl;
+  }
+  &__group {
+    @apply grid grid-cols-2 gap-3;
+  }
+  &__info {
+    @apply text-base;
+    b {
+      @apply font-semibold;
+    }
+  }
+  &__stars {
+    @apply w-full flex gap-1;
+  }
+  &__price {
+    @apply font-bold text-2xl text-primary;
   }
 }
 </style>

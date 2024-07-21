@@ -52,6 +52,30 @@ describe("Button.vue", () => {
     expect(buttonElement.attributes("type")).toEqual(type);
   });
 
+  it("Fullwidth prop test", () => {
+    const wrapper = mount(Button, {
+      props: {
+        label: "Nice",
+        fullwidth: true,
+      },
+    });
+
+    const buttonElement = wrapper.find(queries.button);
+    expect(buttonElement.classes("w-full")).toBeTruthy();
+  });
+
+  it("Rounded prop test", () => {
+    const wrapper = mount(Button, {
+      props: {
+        label: "Nice",
+        rounded: true,
+      },
+    });
+
+    const buttonElement = wrapper.find(queries.button);
+    expect(buttonElement.classes("rounded-full")).toBeTruthy();
+  });
+
   it("Click test", () => {
     const wrapper = mount(Button, {
       props: {

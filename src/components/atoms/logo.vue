@@ -1,8 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="logo__wrapper">
-    <img src="/logo.png" alt="Logo.png" class="logo" />
+  <div class="logo__wrapper" data-test="logo">
+    <img src="/logo.png" alt="Logo.png" class="logo" data-test="logo-image" />
   </div>
 </template>
 

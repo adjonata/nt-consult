@@ -13,7 +13,7 @@ defineProps<{
       <slot></slot>
     </div>
     <div class="label__error" v-if="error">
-      <span>{{ error }}</span>
+      <span data-test="label-error">{{ error }}</span>
     </div>
   </div>
 </template>
