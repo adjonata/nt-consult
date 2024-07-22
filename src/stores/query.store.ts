@@ -106,7 +106,7 @@ export const useQueryStore = defineStore("query", () => {
 
   // Contrata o hotél selecionado
   async function handleContract(data: ContractFields) {
-    const canSentNotification = checkNotificationPermission();
+    const canSentNotification = await checkNotificationPermission();
     if (!canSentNotification) {
       window.alert("Para continuar, permita as notificações!");
       return;
