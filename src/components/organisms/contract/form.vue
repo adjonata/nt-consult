@@ -20,7 +20,7 @@ const [email] = defineField("email");
 const [paymentMethod] = defineField("payment_method");
 
 const submit = handleSubmit(async (values) => {
-  await queryStore.handleContract();
+  await queryStore.handleContract(values);
 });
 </script>
 
