@@ -3,35 +3,16 @@ export type TableColumn = {
   label: string;
   key: string;
 };
+export type TableItem = {
+  name: string;
+  infos: Record<string, string | number>;
+};
 const props = withDefaults(
   defineProps<{
-    columns?: TableColumn[];
-    items?: {
-      name: string;
-      infos: Record<string, string | number>;
-    }[];
+    columns: TableColumn[];
+    items: TableItem[];
   }>(),
-  {
-    columns: () => [
-      {
-        key: "test1",
-        label: "Teste 1",
-      },
-      {
-        key: "test2",
-        label: "Teste 2",
-      },
-      {
-        key: "test3",
-        label: "Teste 3",
-      },
-    ],
-    items: () =>
-      Array.from({ length: 30 }, (_, index) => ({
-        name: `Hotel ${index}`,
-        infos: { test1: "1222", test2: "1223", test3: "1224" },
-      })),
-  }
+  {}
 );
 </script>
 
@@ -50,13 +31,13 @@ const props = withDefaults(
         <span class="table__content__item__list">
           <span v-for="column in columns" :key="column.key">
             <slot :name="`col-${column.key}`" :item="item">
-              {{ item.infos[column.key] }}
+              <span v-html="item.infos[column.key]"></span>
             </slot>
           </span>
         </span>
         <div
           class="table__content__item__actions"
-          v-if="$slots['item-actions']"
+          v-if="$slots['actions-item']"
         >
           <slot name="actions-item" :item="item"></slot>
         </div>
@@ -67,26 +48,26 @@ const props = withDefaults(
 
 <style lang="scss" scoped>
 .table {
-  @apply w-full grid grid-cols-12 gap-3 lg:gap-6 py-2;
+  @apply w-full grid grid-cols-12;
   &__columns {
-    @apply col-span-4 md:col-span-3 lg:col-span-2 flex flex-col gap-6 pt-[50px] px-2 border-r border-r-slate-300;
+    @apply col-span-4 md:col-span-3 lg:col-span-2 flex flex-col gap-6 pt-[66px] pb-4 px-2 border-r border-r-slate-300;
 
     span {
-      @apply font-semibold text-gray-600 uppercase text-lg leading-5 h-[30px];
+      @apply font-semibold text-gray-500 uppercase text-[14px] leading-5 h-[33px] flex items-center;
     }
   }
   &__content {
-    @apply col-span-8 md:col-span-9 lg:col-span-10 w-full overflow-x-auto px-6
-    flex gap-2 flex-nowrap;
+    @apply col-span-8 md:col-span-9 lg:col-span-10 w-full overflow-x-auto px-4 lg:px-6 pb-4
+    flex gap-4 lg:gap-6 flex-nowrap;
     &__item {
-      @apply flex flex-col min-w-[120px];
+      @apply flex flex-col min-w-[220px] border border-gray-200 p-4 rounded-lg;
       &__name {
         @apply pb-6 text-xl font-bold text-primary;
       }
       &__list {
         @apply flex flex-col gap-6;
         span {
-          @apply h-[30px] leading-5 text-lg text-gray-600;
+          @apply h-[33px] leading-5 text-[16px] text-gray-600 flex items-center;
         }
       }
     }

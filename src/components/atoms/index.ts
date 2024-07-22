@@ -6,3 +6,4 @@ export { default as Modal } from "./modal.vue";
 export { default as Select } from "./select.vue";
 export { default as Spinner } from "./spinner.vue";
 export { default as Table } from "./table.vue";
+export { default as Stars } from "./stars.vue";

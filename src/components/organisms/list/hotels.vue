@@ -14,6 +14,7 @@ const {
   isAlreadySearched,
   sortBy,
   sortType,
+  showComparation,
 } = storeToRefs(queryStore);
 
 const showFilters = computed(() =>
@@ -91,6 +92,7 @@ const showEmptyFeedback = computed(
         :label="`Comparar (${selectedHotelIds.length})`"
         theme="primary"
         rounded
+        @click="showComparation = true"
       />
     </div>
   </section>

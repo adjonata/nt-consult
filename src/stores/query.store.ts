@@ -1,5 +1,9 @@
 import { hotelsApi } from "@/api/modules/hotels";
 import type { Hotel } from "@/types/hotel";
+import { delay } from "@/utils/delay";
+import { sendNotification } from "@/utils/notify";
+import { randomNumber } from "@/utils/random";
+import type { ContractFields } from "@/validations/contract";
 import type { QueryFields } from "@/validations/query";
 import { defineStore } from "pinia";
 import { computed, ref, watch } from "vue";
@@ -29,6 +33,7 @@ export const useQueryStore = defineStore("query", () => {
   const isChangingSort = ref(false);
   const isAlreadySearched = ref(false);
 
+  // Busca hotéis usando requisição mock
   async function handleSearchHotels(
     data: QueryFields,
     _changingSort?: boolean
@@ -56,6 +61,7 @@ export const useQueryStore = defineStore("query", () => {
     }
   }
 
+  // Manda a última query mudando os parâmetros de ordenação
   async function handleChangeSort(
     _sortBy: QuerySortBy,
     _sortType: QuerySortType
@@ -67,7 +73,6 @@ export const useQueryStore = defineStore("query", () => {
       await handleSearchHotels(lastQueryFields.value, true);
     }
   }
-
   watch([sortBy, sortType], ([newSortBy, newSortType]) => {
     handleChangeSort(newSortBy, newSortType);
   });
@@ -85,6 +90,41 @@ export const useQueryStore = defineStore("query", () => {
     selectedHotels.value = [];
   }
 
+  const showComparation = ref(false);
+  watch(
+    () => showComparation.value,
+    (show) => {
+      const body = document.querySelector("body");
+      if (body) {
+        body.style.overflow = show ? "hidden" : "auto";
+      }
+    }
+  );
+
+  const hotelToContract = ref<Hotel>();
+  const showContractModal = ref(false);
+
+  // Contrata o hotél selecionado
+  async function handleContract(data: ContractFields) {
+    await sendNotification("Proposta de reserva enviada!");
+
+    selectedHotels.value = [];
+    showComparation.value = false;
+    showContractModal.value = false;
+
+    await delay(randomNumber(3000, 6000));
+    await sendNotification("Proposta em análise!");
+    await delay(randomNumber(3000, 6000));
+    const approved = randomNumber(0, 100) < 50 ? true : false;
+    await sendNotification(
+      `Reversa ${
+        approved
+          ? "aceita, entraremos em contato!"
+          : "não aceita, tente novamente!"
+      }`
+    );
+  }
+
   return {
     sortBy,
     sortType,
@@ -99,5 +139,9 @@ export const useQueryStore = defineStore("query", () => {
     handleUnselectAllHotels,
     selectedHotels,
     selectedHotelIds,
+    showComparation,
+    hotelToContract,
+    showContractModal,
+    handleContract,
   };
 });

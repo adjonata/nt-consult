@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Modal } from "@/components/atoms";
 import Logo from "@/components/atoms/logo.vue";
 import HotelsList from "@/components/organisms/list/hotels.vue";
 import QueryForm from "@/components/organisms/query/form.vue";
+import ComparationModal from "@/components/organisms/compare/modal.vue";
+import ContractForm from "@/components/organisms/contract/form.vue";
 </script>
 
 <template>
@@ -10,7 +11,8 @@ import QueryForm from "@/components/organisms/query/form.vue";
     <Logo />
     <QueryForm />
     <HotelsList />
-    <Modal title="Comparar preços" />
+    <ComparationModal />
+    <ContractForm />
   </section>
 </template>
 

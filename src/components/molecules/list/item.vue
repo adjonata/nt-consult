@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import StarIcon from "@/assets/images/star.svg";
+import { Stars } from "@/components/atoms";
 import type { Hotel } from "@/types/hotel";
 import { formatDate } from "@/utils/date";
 import { applyMoneyMask } from "@/utils/masks";
@@ -65,7 +65,7 @@ const dates = computed(() => {
       </span>
     </div>
     <div class="hotel-item__stars">
-      <StarIcon v-for="stars in hotel.stars" class="w-[24px]" />
+      <Stars :length="hotel.stars" />
     </div>
     <span class="hotel-item__price">
       {{ hotelPrice }}
@@ -97,7 +97,7 @@ const dates = computed(() => {
     }
   }
   &__stars {
-    @apply w-full flex gap-1;
+    @apply w-full;
   }
   &__price {
     @apply font-bold text-2xl text-primary;
