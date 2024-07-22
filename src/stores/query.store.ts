@@ -1,7 +1,7 @@
 import { hotelsApi } from "@/api/modules/hotels";
 import type { Hotel } from "@/types/hotel";
 import { delay } from "@/utils/delay";
-import { sendNotification } from "@/utils/notify";
+import { checkNotificationPermission, sendNotification } from "@/utils/notify";
 import { randomNumber } from "@/utils/random";
 import type { ContractFields } from "@/validations/contract";
 import type { QueryFields } from "@/validations/query";
@@ -106,6 +106,12 @@ export const useQueryStore = defineStore("query", () => {
 
   // Contrata o hotél selecionado
   async function handleContract(data: ContractFields) {
+    const canSentNotification = checkNotificationPermission();
+    if (!canSentNotification) {
+      window.alert("Para continuar, permita as notificações!");
+      return;
+    }
+
     await sendNotification("Proposta de reserva enviada!");
 
     selectedHotels.value = [];
